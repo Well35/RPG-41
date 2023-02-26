@@ -10,8 +10,34 @@ class Map {
 	vector<vector<char>> map;
 	default_random_engine gen;
 	public:
-	//TODO: Write a getter and a setter to get/set the characters in the map
-	//TODO: Write a function to save the map and reload the map
+	// Map setter function
+	void set(int col, int row, char newChar) {
+		map.at(row).at(col) = newChar;	
+	}
+	// Map getter function
+	char get(int col, int row) {
+		return map.at(row).at(col);
+	}
+	
+	// Map save function
+	void save(Map& savedMap) {
+		int size = map.size();
+		for(int row = 0; row < size; ++row){
+			for(int col = 0; col < size; ++col) {
+				savedMap.set(col,row,get(col,row);
+			}
+		}		   
+	}
+	
+	void reload(Map& savedMap){
+		int size = map.size();
+		for(int row = 0; row < size; ++row){
+			for(int col = 0; col < size; ++col) {
+				set(col,row,savedMapget(col,row);
+			}
+		}
+	}
+					     
 	static const char HERO     = 'H';
 	static const char MONSTER  = 'M';
 	static const char WALL     = '#';
