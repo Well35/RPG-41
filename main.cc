@@ -37,21 +37,9 @@ void turn_off_ncurses() {
 */
 
 int main() {
-	vector<Hero> h;
-	Hero temp = {20, 5, "Jeff", "Hero"};
-	h.push_back(temp);
-	temp = {23, 20, "John", "Hero"};
-	h.push_back(temp);
-	vector<Monster> m;
-	Monster t = {30, 2, "Orc", "Monster"};
-	m.push_back(t);
-	t = {40, 1, "Ogre", "Monster"};
-	m.push_back(t);
-	t = {25, 30, "Chicken", "Monster"};
-	m.push_back(t);
 	Combat c;
-	c.start(h, m);
-	
+
+
 	return 0;
 	turn_on_ncurses(); //DON'T DO CIN or COUT WHEN NCURSES MODE IS ON
 	Map map;
