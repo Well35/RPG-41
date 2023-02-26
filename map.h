@@ -28,7 +28,7 @@ class Map {
 			}
 		}		   
 	}
-	
+	// Map reload function
 	void reload(Map& savedMap){
 		int size = map.size();
 		for(int row = 0; row < size; ++row){
