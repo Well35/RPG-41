@@ -2,7 +2,7 @@
 //What bullet points did you do: 4, 5
 #include "map.h"
 #include "Combat.h"
-#include "Classes.h"
+#include "Actors.h"
 #include <cstdlib> // For rand()
 #include <ctime>  // For srand()
 #include <unistd.h>
