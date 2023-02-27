@@ -90,6 +90,10 @@ class Map {
                 }
                 usleep(50'000'000/90);
                 turn_on_ncurses();
+                draw(newX,newY);
+                mvprintw(DISPLAY+1,0,"X: %i Y: %i\n",newX,newY);
+                mvprintw(DISPLAY+2,0,"Money: $%i\n",money);
+                refresh();		
         }
 	
 	// Game reload function
@@ -119,6 +123,11 @@ class Map {
                 }
 		usleep(50'000'000/90);
                 turn_on_ncurses();
+                draw(oldX,oldY);
+                mvprintw(DISPLAY+1,0,"X: %i Y: %i\n",oldX,oldY);
+                mvprintw(DISPLAY+2,0,"Money: $%i\n",money);
+                refresh();
+
         }
 
 	
