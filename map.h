@@ -8,6 +8,11 @@ using namespace std; //Boo hiss
 
 class Map {
 	vector<vector<char>> map;
+	vector<Map> mapSaves;
+	vector<vector<Hero>> heroSaves;
+	vector<int> moneySaves;
+	vector<int> xCoord;
+	vector<int> yCoord;
 	default_random_engine gen;
 	public:
 	// Map setter function
@@ -19,25 +24,80 @@ class Map {
 		return map.at(row).at(col);
 	}
 	
-	// Map save function
-	void save(Map& savedMap) {
-		int size = map.size();
-		for(int row = 0; row < size; ++row){
-			for(int col = 0; col < size; ++col) {
-				savedMap.set(col,row,get(col,row);
-			}
-		}		   
-	}
-	// Map reload function
-	void reload(Map& savedMap){
-		int size = map.size();
-		for(int row = 0; row < size; ++row){
-			for(int col = 0; col < size; ++col) {
-				set(col,row,savedMapget(col,row);
-			}
-		}
-	}
-					     
+	// Game save function
+        void save(vector<Hero>& party, int& money, int& newX, int& newY) {
+                turn_off_ncurses();
+                cout << "Enter the number for the save that is to be changed:\n";
+                for(int i = mapSaves.size(); 0 < i; --i) {
+                        cout << "Save " << i << endl;
+                }
+                cout << "New Save 0\n";
+                cout << "--------------\n > ";
+                int input = 0;
+                cin >> input;
+                if(input == 0) {
+                        Map temp();
+                        for(int row = 0; row < map.size(); ++row) {
+                                for(int col = 0; col < map.at(row).size(); ++col) {
+                                        temp.set(col,row, get(col, row));
+                                }
+                        }
+                        mapSaves.push_back(temp);
+                        heroSaves.push_back(party);
+                        moneySaves.push_back(money);
+                        xCorrd.push_back(newX);
+                        yCoord.push_back(newY);
+                        cout << "New save created!" << endl;
+                } else if(input-1 <= mapSaves.size()) {
+                        for(int row = 0; row < map.size(); ++row) {
+                                for(int col = 0; col < map.at(row).size(); ++col) {
+                                        mapSave.at(input-1).set(col,row,get(col,row));
+                                }
+                        }
+                        for(int slot = 0; slot < heroSaves.at(input-1).size(); ++slot) {
+                                heroSave.at(input-1) = party.at(slot);
+                        }
+                        moneySave.at(input-1) = money;
+                        xCoord.at(input-1) = newX;
+                        yCoord.at(input-1) = newY;
+                        cout << "Save overrided!" << endl;
+                } else {
+                        cout << "Save does not exist!" << endl;
+                }
+                usleep(50'000'000/90);
+                turn_on_ncurses();
+        }
+	
+	// Game reload function
+        void reload(vector<Hero>& party, int& money, int& oldX, int& oldY) {
+                turn_off_ncurses();
+                cout < "Enter the number to load the save:\n";
+                for(int i = mapSaves.size(); 0 < i; --i) {
+                        cout << "Save " << i << endl;
+                }
+                cout << "-------------------\n > ";
+                int input = 0;
+                cin >> input;
+                if(input-1 <= mapSaves.size()) {
+                        for(int row = 0; row < map.size(); ++row) {
+                                for(int col = 0; col < map.size(); ++col) {
+                                        set(col,row,mapSaves.at(input-1).get(col,row));
+                                }
+                        }
+                        for(int slot = 0; slot < heroSaves.at(input-1).size(); ++slot) {
+                                party.at(slot) = heroSaves.at(input-1).at(slot);
+                        }
+                        money = moneySaves.at(input-1);
+                        oldX = xCoord.at(input-1);
+                        oldY = yCoord.at(intput-1);
+                } else {
+                        cout << "Save does not exist" << endl;
+                }
+		usleep(50'000'000/90);
+                turn_on_ncurses();
+        }
+
+	
 	static const char HERO     = 'H';
 	static const char MONSTER  = 'M';
 	static const char WALL     = '#';
