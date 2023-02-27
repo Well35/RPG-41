@@ -44,10 +44,10 @@ void gameOver(int money) {
 }
 
 int main() {
-	srand(time(0)) // Prevent rand from generating the same numbers
+	srand(time(0)); // Prevent rand from generating the same numbers
 	
 	// Current Data Veriables
-	vector<Hero> perty;		// Holds all current party members
+	vector<Hero> party;		// Holds all current party members
 	int money = 0;			// Holds current amount of money
 	
 	Combat c;
