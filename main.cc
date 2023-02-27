@@ -38,62 +38,6 @@ void turn_off_ncurses() {
 	if (system("clear")) {}
 }
 
-void save_seq(vector<Map>& mapSaves, vector<vector<Hero>>& heroSaves, vector<int>* moneySaves, Map& map, vector<Hero>& party, int& money) {
-	turn_off_ncurses();
-	cout << "Enter the number to add to save file:\n";
-	for(int i = mapSaves.size(); 0 < i; --i) {
-		cout << "Save " << i << endl;
-	}
-	cout << "New Save 0\n";
-	cout << "--------------\n > ";
-	int input = 0;
-	cin >> input;
-	if(input == 0) {
-		Map temp;
-		map.save(temp); 	// Copies current map onto a temporary map
-		mapSaves.push_back(temp); // Stores the temporary map in mapSaves
-		heroSaves.push_back(party); // Saves current party
-		moneySaves.push_back(money); // Saves current money
-		cout << "New save created!" << endl;
-	} else if(input-1 <= mapSave.size()) {
-		map.save(mapSave.at(input-1));	// Copies current map onto to the selected map in mapSave
-		for(int i  = 0; i < heroSave.at(input-1).size(); ++i) {
-			heroSaves.at(input-1).at(i) = party.at(i);	// Copies over the saved party data with the current party
-		}
-		moneySaves.at(input-1) = money;	// Copies over the saved money data with current money
-		cout << "Save overrided!" << endl;
-	} else {
-		cout << "Saves does not exist!\n";	// In case the user puts in a bad input
-	}
-	usleep(50'000'000);		// Stalls the screen clearing so user can read the messages
-	turn_on_ncurses();
-}
-
-void reload_seq(vector<Map>& mapSaves, vector<vector<Hero>>& heroSaves, vector<int>* moneySaves, Map& map, vector<Hero>& party, int& money) {
-	turn_off_ncurses();
-	cout << "Enter the number for the save you want to load:\n";
-    	if(saves.size() != 0) {
-    	    for(int i = saves.size(); i > 0; --i) {
-        	    cout << "Save " << i << endl;
-        	}
-    	}
-   	 cout << "--------------\n > ";
-   	 int input = 0;
-   	 cin >> input;
-   	 if(input <= mapSaves.size()){
-   	     map.reload(mapSaves.at(input-1));
-   	     for(int i = 0; i < heroSaves.at(input-1).size(); i++) {
-   	         party.at(i) = heroSaves.at(input-1).at(i);
-       	 }
-       	 money = moneySave.at(input-1);
-	 cout << "Load complete!" << endl;
-    	} else {
-    	    cout << "Save does not exist";
-    	}
-    	usleep(50'000'000/MAX_FPS);
-    	turn_on_ncurses();
-}
-
 void gameOver(int money) {
 	if(300 <= money) cout << "\n\n Congratulations, you WIN!\n\n";
 	else cout << "\n\n !!YOU LOST!! \n\n";
@@ -101,10 +45,6 @@ void gameOver(int money) {
 
 int main() {
 	srand(time(0)) // Prevent rand from generating the same numbers
-	// Saved Data Variables
-	vector<Map> mapSaves;		// Holds all map saves here
-	vector<vector<Hero>> heroSaves; // Hold all hero saves here
-	vector<int> moneySaves;		// Hold all money saves here
 	
 	// Current Data Veriables
 	vector<Hero> perty;		// Holds all current party members
@@ -120,6 +60,8 @@ int main() {
 	while (true) {
 		int ch = getch(); // Wait for user input, with TIMEOUT delay
 		if (ch == 'q' || ch == 'Q') break;
+		else if(ch == 's' || ch == 'S') map.save(party,money,x,y);
+		else if(ch == 'r' || ch == 'r') map.reload(party,money,x,y);
 		else if (ch == RIGHT) {
 			x++;
 			if (x >= Map::SIZE) x = Map::SIZE - 1; //Clamp value
