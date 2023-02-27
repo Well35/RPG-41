@@ -2,6 +2,7 @@
 #include "Actors.h"
 #include <vector>
 #include <string>
+#include <unistd.h>
 #include <iostream>
 #include <random>
 #include <ncurses.h>
@@ -16,6 +17,28 @@ class Map {
 	vector<int> yCoord;
 	default_random_engine gen;
 	public:
+    	void turn_on_ncurses() {
+        	initscr();//Start curses mode
+        	start_color(); //Enable Colors if possible
+        	init_pair(1,COLOR_WHITE,COLOR_BLACK); //Set up some color pairs
+        	init_pair(2,COLOR_CYAN,COLOR_BLACK);
+        	init_pair(3,COLOR_GREEN,COLOR_BLACK);
+        	init_pair(4,COLOR_YELLOW,COLOR_BLACK);
+        	init_pair(5,COLOR_RED,COLOR_BLACK);
+        	init_pair(6,COLOR_MAGENTA,COLOR_BLACK);
+        	clear();
+        	noecho();
+        	cbreak();
+        	timeout(10); //Set a max delay for key entry
+    	}
+
+    	//Exit full screen mode - also do this if you ever want to use cout or gtest or something
+    	void turn_off_ncurses() {
+    	    clear();
+    	    endwin(); // End curses mode
+    	    if (system("clear")) {}
+    	}
+
 	// Map setter function
 	void set(int col, int row, char newChar) {
 		map.at(row).at(col) = newChar;	
@@ -37,7 +60,7 @@ class Map {
                 int input = 0;
                 cin >> input;
                 if(input == 0) {
-                        Map temp();
+                        Map temp;
                         for(int row = 0; row < map.size(); ++row) {
                                 for(int col = 0; col < map.at(row).size(); ++col) {
                                         temp.set(col,row, get(col, row));
@@ -46,19 +69,19 @@ class Map {
                         mapSaves.push_back(temp);
                         heroSaves.push_back(party);
                         moneySaves.push_back(money);
-                        xCorrd.push_back(newX);
+                        xCoord.push_back(newX);
                         yCoord.push_back(newY);
                         cout << "New save created!" << endl;
                 } else if(input-1 <= mapSaves.size()) {
                         for(int row = 0; row < map.size(); ++row) {
                                 for(int col = 0; col < map.at(row).size(); ++col) {
-                                        mapSave.at(input-1).set(col,row,get(col,row));
+                                        mapSaves.at(input-1).set(col,row,get(col,row));
                                 }
                         }
                         for(int slot = 0; slot < heroSaves.at(input-1).size(); ++slot) {
-                                heroSave.at(input-1) = party.at(slot);
+                                heroSaves.at(input-1).at(slot) = party.at(slot);
                         }
-                        moneySave.at(input-1) = money;
+                        moneySaves.at(input-1) = money;
                         xCoord.at(input-1) = newX;
                         yCoord.at(input-1) = newY;
                         cout << "Save overrided!" << endl;
@@ -72,7 +95,7 @@ class Map {
 	// Game reload function
         void reload(vector<Hero>& party, int& money, int& oldX, int& oldY) {
                 turn_off_ncurses();
-                cout < "Enter the number to load the save:\n";
+                cout << "Enter the number to load the save:\n";
                 for(int i = mapSaves.size(); 0 < i; --i) {
                         cout << "Save " << i << endl;
                 }
@@ -90,7 +113,7 @@ class Map {
                         }
                         money = moneySaves.at(input-1);
                         oldX = xCoord.at(input-1);
-                        oldY = yCoord.at(intput-1);
+                        oldY = yCoord.at(input-1);
                 } else {
                         cout << "Save does not exist" << endl;
                 }
