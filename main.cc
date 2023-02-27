@@ -43,12 +43,35 @@ void gameOver(int money) {
 	else cout << "\n\n !!YOU LOST!! \n\n";
 }
 
+void characterCreation(vector<Hero>& party) {
+    for(int i = 0; i < 4; ++i) {
+    cout << "Enter your character's name:\n > ";
+    string charName = "N/A";
+    cin >> charName;
+    if(charName == "q" || charName == "Q") break;
+
+    cout << "Enter your class:\n";
+    cout << "1 - Mechanic\n";
+    cout << "2 - Netrunnner\n";
+    cout << "3 - Mech\n";
+    cout << "4 - Wizard\n"; // TODO
+    cout << "--------------\n > ";
+    int classType = 0;
+    cin >> classType;
+
+    Hero tempHero(charName, classType);
+    party.push_back(tempHero);
+    }
+}
+
+
 int main() {
-	srand(time(0)); // Prevent rand from generating the same numbers
-	
+	srand(time(0)); // Prevent rand from generating the same number
 	// Current Data Veriables
 	vector<Hero> party;		// Holds all current party members
 	int money = 0;			// Holds current amount of money
+	
+	characterCreation(party);
 	
 	Combat c;
 	
