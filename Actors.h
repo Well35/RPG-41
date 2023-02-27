@@ -45,23 +45,31 @@ class Hero : public Actor {
     //3 = paladin??
     public:
         Hero(string name, int classs) {
-            //set.name(newname);
+            set_name(name);
             classtype = classs;                      
             if (classtype == 1) {                        
-            //Mechanic (priest)                      
-            set_hp(rand() % 75 + 50);                
-            set_atk(rand() % 12 + 8);                
-            set_spd(rand() % 14 + 10);                                                    
-}                                        
+                //Mechanic (priest)                      
+                set_hp(rand() % 75 + 50);                
+                set_atk(rand() % 12 + 8);                
+                set_spd(rand() % 14 + 10);                                                    
+            }                                        
             else if (classtype == 2) {                   
-            //Netrunner(Rogue)                       
-            set_hp(rand() % 75 + 50);                
-            set_atk(rand() % 14 + 12);                                                        
-            set_spd(rand() % 20 + 16);                                                    
-}                                        
+                //Netrunner(Rogue)                       
+                set_hp(rand() % 75 + 50);                
+                set_atk(rand() % 14 + 12);                                                        
+                set_spd(rand() % 20 + 16);                                                    
+            }                                        
             if (classtype == 3) {                        
-            //Mech(Paladin)
-            set_hp(rand() % 100 + 75);                                                        set_atk(rand() % 20 + 16);                                                        set_spd(rand() % 12 + 8);            }                                        if (classtype == 4) {                        //Technomancer(Wizard)                   set_hp(rand() % 50 + 25);                set_atk(rand() % 12 + 8);                set_spd(rand() % 14 + 10);
+                //Mech(Paladin)
+                set_hp(rand() % 100 + 75);
+                set_atk(rand() % 20 + 16);  
+                set_spd(rand() % 12 + 8);            
+            } 
+            if (classtype == 4) {
+                //Technomancer(Wizard)
+                set_hp(rand() % 50 + 25);
+                set_atk(rand() % 12 + 8);
+                set_spd(rand() % 14 + 10);
             }
             else {
                 set_hp(1);
@@ -76,10 +84,18 @@ class Hero : public Actor {
         }
         int special() {
             if (classtype == 1) {
-                return rand() % 20 + 15;             }                                        else if (classtype == 2) {                   return atkBasic() *4;
+                return rand() % 20 + 15;
+            }                                      
+            else if (classtype == 2) {
+                return atkBasic() *4;
             }
             else if (classtype == 3) {
-return 0;                            }                                        else if (classtype == 4) {                   return rand()% -20 + -15;            }                                        else {
+                return 0;
+            }
+            else if (classtype == 4) {
+                return rand()% -20 + -15;
+            }
+            else {
                 return 0;
             }
             return 0;
