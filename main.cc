@@ -64,6 +64,24 @@ void characterCreation(vector<Hero>& party) {
     }
 }
 
+void team(vector<Hero>& party, int& money) {
+    turn_off_ncurses();
+    for(int i = 0; i < party.size(); ++i) {
+        cout << party.at(i).get_name() << endl;
+        cout << "--------------------" << endl;
+        cout << "Class: " << party.at(i).get_classtype() << endl;
+        cout << "HP: " << party.at(i).get_hp() << endl;
+        cout << "ATK: " << party.at(i).get_atk() << endl;
+        cout << "SPD: " << party.at(i).get_spd() << endl;
+        cout << endl;
+    }
+    cout << "Money: $" << money << endl;
+    cout << "\nEnter 'q' or 'Q' to exit\n > ";
+    char input = 'a';
+    cin >> input;
+
+    turn_on_ncurses();
+}
 
 int main() {
 	srand(time(0)); // Prevent rand from generating the same number
@@ -85,6 +103,13 @@ int main() {
 		if (ch == 'q' || ch == 'Q') break;
 		else if(ch == 's' || ch == 'S') map.save(party,money,x,y);
 		else if(ch == 'r' || ch == 'r') map.reload(party,money,x,y);
+        	else if(ch == 't' || ch == 'T') {
+          		team(party,money);
+         		map.draw(x,y);
+         		mvprintw(Map::DISPLAY+1,0,"X: %i Y: %i\n",x,y);
+            		mvprintw(Map::DISPLAY+2,0,"Money: $%i\n",money);
+        	 	refresh();
+	        }
 		else if (ch == RIGHT) {
 			x++;
 			if (x >= Map::SIZE) x = Map::SIZE - 1; //Clamp value
