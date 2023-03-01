@@ -166,7 +166,10 @@ int main() {
 	int old_x = -1, old_y = -1;
 	while (true) {
 		int ch = getch(); // Wait for user input, with TIMEOUT delay
-		if (ch == 'q' || ch == 'Q') break;
+		if (ch == 'q' || ch == 'Q') {
+			map.save(party,money,x,y);
+			break;
+		}
 		else if (ch == 's' || ch == 'S') map.save(party, money, x, y);
 		else if (ch == 'r' || ch == 'r') map.reload(party, money, x, y);
 		else if (ch == 't' || ch == 'T') {
