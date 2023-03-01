@@ -140,7 +140,7 @@ class Combat {
 				printw(temp.c_str());
 			}
 		}
-		void start(vector<Hero>& heroes, vector<Monster>& monsters) {
+		void start(vector<Hero> heroes, vector<Monster>& monsters, bool& won, int& money) {
 			Bridges *bridges =  new Bridges(99, "Well35", "1562414356318");
 			bridges->setTitle("An Example Circular Doubly Linked List");
 				turn_on_ncurses();
@@ -196,10 +196,23 @@ class Combat {
 				}
 				turn_off_ncurses();
 				//list.print_list();
-				if (!mon.size()) cout << "YOU WIN!!" << endl;
+				if (!mon.size()) {
+					cout << "YOU WON THE FIGHT!!" << endl;
+					cout << "+200 added" << endl;
+					usleep(20'000'000/90);
+					money += 200;
+					won = true;
+				}
 				if (!her.size()) {
-					cout << "YOU LOSE!!" << endl;
-					exit(0);
+					cout << "YOU LOST THE FIGHT!!" << endl;
+					if(money < 999) {
+						cout << "-$" << money << " lossed" << endl;
+						money = 0;
+					} else {
+						money -= 1000;
+						cout << "-$1000 lossed" << endl;
+					}
+					usleep(50'000'000/90);
 				}
 			}
 
