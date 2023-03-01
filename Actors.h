@@ -34,7 +34,7 @@ class Actor {
 	void set_name(string newName) {
 		name = newName;
 	}
-	virtual string get_type() const {}
+	virtual string get_type() const { return "NPC"; }
 };
 
 class Hero : public Actor {
