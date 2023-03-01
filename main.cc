@@ -17,29 +17,29 @@ const int RIGHT = 67;
 
 
 //Turns on full screen text mode
-/*
+
    void turn_on_ncurses() {
-   initscr();//Start curses mode
-   start_color(); //Enable Colors if possible
-   init_pair(1,COLOR_WHITE,COLOR_BLACK); //Set up some color pairs
-   init_pair(2,COLOR_CYAN,COLOR_BLACK);
-   init_pair(3,COLOR_GREEN,COLOR_BLACK);
-   init_pair(4,COLOR_YELLOW,COLOR_BLACK);
-   init_pair(5,COLOR_RED,COLOR_BLACK);
-   init_pair(6,COLOR_MAGENTA,COLOR_BLACK);
-   clear();
-   noecho();
-   cbreak();
-   timeout(TIMEOUT); //Set a max delay for key entry
+   	initscr();//Start curses mode
+   	start_color(); //Enable Colors if possible
+   	init_pair(1,COLOR_WHITE,COLOR_BLACK); //Set up some color pairs
+        init_pair(2,COLOR_CYAN,COLOR_BLACK);
+        init_pair(3,COLOR_GREEN,COLOR_BLACK);
+        init_pair(4,COLOR_YELLOW,COLOR_BLACK);
+        init_pair(5,COLOR_RED,COLOR_BLACK);
+        init_pair(6,COLOR_MAGENTA,COLOR_BLACK);
+        clear();
+        noecho();
+        cbreak();
+        timeout(TIMEOUT); //Set a max delay for key entry
    }
 
 //Exit full screen mode - also do this if you ever want to use cout or gtest or something
 void turn_off_ncurses() {
-clear();
-endwin(); // End curses mode
-if (system("clear")) {}
+	clear();
+	endwin(); // End curses mode
+	if (system("clear")) {}
 }
-*/
+
 void winCondition(bool& win, Map map) {
 	win = true;
 	for (int row = 0; row < Map::SIZE; ++row) {
