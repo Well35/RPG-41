@@ -11,45 +11,6 @@
 using namespace std;
 using namespace bridges;
 
-
-void turn_on_ncurses() {
-	initscr();//Start curses mode
-	start_color(); //Enable Colors if possible
-	init_pair(1,COLOR_WHITE,COLOR_BLACK); //Set up some color pairs
-	init_pair(2,COLOR_CYAN,COLOR_BLACK);
-	init_pair(3,COLOR_GREEN,COLOR_BLACK);
-	init_pair(4,COLOR_YELLOW,COLOR_BLACK);
-	init_pair(5,COLOR_RED,COLOR_BLACK);
-	init_pair(6,COLOR_MAGENTA,COLOR_BLACK);
-	clear();
-	noecho();
-	cbreak();
-	timeout(10); //Set a max delay for key entry
-}
-
-void turn_off_ncurses() {
-	clear();
-	endwin(); // End curses mode
-	if (system("clear")) {}
-}
-/*
-class Actor {
-	public:
-		int hp = 0;
-		int speed = 0;
-		string name;
-		string type;
-		int dmg = 5;
-};
-
-class Monster : public Actor {
-	public:
-};
-
-class Hero : public Actor {
-	public:
-};
-*/
 class LL {
 	struct Node {
 		Actor* data;
@@ -112,6 +73,28 @@ class Combat {
 		int heroCount = 0;
 		LL list;
 	public:
+	
+	void turn_on_ncurses() {
+		initscr();//Start curses mode
+		start_color(); //Enable Colors if possible
+		init_pair(1,COLOR_WHITE,COLOR_BLACK); //Set up some color pairs
+		init_pair(2,COLOR_CYAN,COLOR_BLACK);
+		init_pair(3,COLOR_GREEN,COLOR_BLACK);
+		init_pair(4,COLOR_YELLOW,COLOR_BLACK);
+		init_pair(5,COLOR_RED,COLOR_BLACK);
+		init_pair(6,COLOR_MAGENTA,COLOR_BLACK);
+		clear();
+		noecho();
+		cbreak();
+		timeout(10); //Set a max delay for key entry
+	}
+
+	void turn_off_ncurses() {
+		clear();
+		endwin(); // End curses mode
+		if (system("clear")) {}
+	}	
+	
 		void populate() {
 			for (auto& a : hnm) {
 				list.push_back(a);
