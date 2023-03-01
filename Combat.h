@@ -1,3 +1,4 @@
+#pragma once
 #include <iostream>
 #include <stdlib.h>
 #include <vector>
@@ -31,7 +32,7 @@ void turn_off_ncurses() {
 	endwin(); // End curses mode
 	if (system("clear")) {}
 }
-
+/*
 class Actor {
 	public:
 		int hp = 0;
@@ -48,7 +49,7 @@ class Monster : public Actor {
 class Hero : public Actor {
 	public:
 };
-
+*/
 class LL {
 	struct Node {
 		Actor* data;
@@ -95,7 +96,7 @@ class LL {
 		int i = size;
 		for (Node *ptr = head; ptr; ptr = ptr->next) {
 			if (!i) break;
-			cout << ptr->data->speed << endl;
+			cout << ptr->data->get_spd() << endl;
 			i--;
 		}
 	}
@@ -119,7 +120,7 @@ class Combat {
 			list.head->prev = list.tail;
 		}
 		static bool com(const Actor* lhs, const Actor* rhs) {
-			return lhs->speed > rhs->speed;
+			return lhs->get_spd() > rhs->get_spd();
 		}
 		void print() {
 			clear();
@@ -130,12 +131,12 @@ class Combat {
 			move(20, 20);
 			for (int i = 0; i < her.size(); i++) {
 				move(2+i, 5);
-				string temp = to_string(i+1) + ". " + (her.at(i).name) + " hp: " + to_string(her.at(i).hp);
+				string temp = to_string(i+1) + ". " + (her.at(i).get_name()) + " hp: " + to_string(her.at(i).get_hp());
 				printw(temp.c_str());
 			}
 			for (int i = 0; i < mon.size(); i++) {
 				move(2+i, 25);
-				string temp = to_string(i+1) + ". " + (mon.at(i).name) + " hp: " + to_string(mon.at(i).hp);
+				string temp = to_string(i+1) + ". " + (mon.at(i).get_name()) + " hp: " + to_string(mon.at(i).get_hp());
 				printw(temp.c_str());
 			}
 		}
@@ -164,16 +165,16 @@ class Combat {
 					int x = getch();
 					print();
 					move(20, 20);
-					s = "Who should " + list.currTurn->data->name + " attack?";
+					s = "Who should " + list.currTurn->data->get_name() + " attack?";
 					printw(s.c_str());
 					if (x == 'q') break;
-					if (list.currTurn->data->hp <= 0) {
+					if (list.currTurn->data->get_hp() <= 0) {
 						list.remove(list.currTurn);	
 					}
-					if (list.currTurn->data->type == "Hero") {
+					if (list.currTurn->data->get_type() == "Hero") {
 						if (x >= 0+49 and x < monsterCount+49) {
-							mon.at(x-49).hp -= list.currTurn->data->dmg;
-							if (mon.at(x-49).hp <= 0) {
+							mon.at(x-49).set_hp(mon.at(x-49).get_hp() - list.currTurn->data->get_atk());
+							if (mon.at(x-49).get_hp() <= 0) {
 								mon.erase(mon.begin()+(x-49));
 								monsterCount--;
 							}
@@ -182,8 +183,8 @@ class Combat {
 					}
 					else {
 						int k = rand() % her.size();
-						her.at(k).hp -= mon.at(rand() % mon.size()).dmg;
-						if (her.at(k).hp  <= 0) {
+						her.at(k).set_hp(her.at(k).get_hp() - mon.at(rand() % mon.size()).get_atk());
+						if (her.at(k).get_hp()  <= 0) {
 							her.erase(her.begin()+k);
 							heroCount--;
 						}
@@ -196,7 +197,10 @@ class Combat {
 				turn_off_ncurses();
 				//list.print_list();
 				if (!mon.size()) cout << "YOU WIN!!" << endl;
-				if (!her.size()) cout << "YOU LOSE!!" << endl;
+				if (!her.size()) {
+					cout << "YOU LOSE!!" << endl;
+					exit(0);
+				}
 			}
 
 		};
