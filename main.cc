@@ -38,8 +38,22 @@ void turn_off_ncurses() {
 	if (system("clear")) {}
 }
 
-void gameOver(int money) {
-	if(300 <= money) cout << "\n\n Congratulations, you WIN!\n\n";
+void winCondition(bool& win, Map map) {
+	win = true;
+	for(int row = 0; row < Map::SIZE; ++row) {
+		for(int col = 0; col < Map::SIZE; ++col) {
+			if(map.get(col,row) == 'M') {
+				win = false;
+				break;
+			}
+		}
+	}
+}
+	
+	
+
+void gameOver(bool win) {
+	if(win) cout << "\n\n Congratulations, you WIN!\n\n";
 	else cout << "\n\n !!YOU LOST!! \n\n";
 }
 
@@ -83,6 +97,57 @@ void team(vector<Hero>& party, int& money) {
     turn_on_ncurses();
 }
 
+void upgrades(vector<Hero>& party, int& money) {
+	turn_off_ncurses():
+	while(true) {
+		cout << "Enter the player to upgrade:\n > ";
+		string input = "a";
+		cin >> input;
+		bool playerCheck = false;
+		int player = 0;
+		for(int i  = 0; i < party.size(); ++i) {
+			if(input == party.at(i),get_name()) {
+				playerCheck = true;
+				player = i;
+			}
+		}
+		if(!playerCheck) break;
+		while(true) {
+			cout << "\nUpgrades:\n-------------\n";
+			cout << "1 - +2 hp : Cost: $100\n";
+			cout << "2 - +2 atk : Cost: $100\n";
+			cout << "3 - +2 spd : Cost : $100\n";
+			cout << "0 - exit\n";
+			cout << "--------------------------\n  > ";
+			int upgrade = 0;
+			cin >> upgrade;
+			if(upgrade == 0) { 
+				break;
+			} else if(upgrade == 1 && money > 99) {
+				party.at(player).set_hp(party.at(player).get_hp()+2);
+				money -= 100;
+				cout << "New HP: " << party.at(player).get_hp() << endl;
+			} else if(upgrade == 2 && money > 99) {
+				party.at(player).set_atk(party.at(player).get_atk()+2);
+				money -= 100;
+				cout << "New ATK: " << party.at(player).get_atk() << endl;
+			} else if(upgrade == 3 && money > 99) {
+				party.at(player).set_spd(party.at(player).get_spd()+2);
+				money -= 100;
+				cout << "New SPD: " << party.at(player).get_spd() << endl;
+			} else if(money < 100)  { 
+				cout << "Insufficient funds!" << endl;
+			} else {
+				cout << "Invalid Option!" << endl;
+			}
+		}
+		cout << "Do you want to upgrade another character? <y/n>\n > ";
+		char exit = 'q';
+		cin >> exit;
+		if(exit == 'n' || exit == 'N') break;
+	}
+}
+				
 int main() {
 	srand(time(0)); // Prevent rand from generating the same number
 	// Current Data Veriables
@@ -108,8 +173,17 @@ int main() {
          		map.draw(x,y);
          		mvprintw(Map::DISPLAY+1,0,"X: %i Y: %i\n",x,y);
             		mvprintw(Map::DISPLAY+2,0,"Money: $%i\n",money);
+			mvprintw(Map::DISPLAY+3,0,"q - quit, s - save, r - load, u - upgrade, t - party info", ' ');
         	 	refresh();
-	        }
+	        } else if(ch == 'u' || ch == 'U') {
+			upgrades(party,money);
+			turn_on_ncurses();
+			map.draw(x,y);
+         		mvprintw(Map::DISPLAY+1,0,"X: %i Y: %i\n",x,y);
+            		mvprintw(Map::DISPLAY+2,0,"Money: $%i\n",money);
+			mvprintw(Map::DISPLAY+3,0,"q - quit, s - save, r - load, u - upgrade, t - party info", ' ');
+        	 	refresh();
+		}
 		else if (ch == RIGHT) {
 			x++;
 			if (x >= Map::SIZE) x = Map::SIZE - 1; //Clamp value
@@ -148,13 +222,15 @@ int main() {
 			map.draw(x,y);
 			mvprintw(Map::DISPLAY+1,0,"X: %i Y: %i\n",x,y);
 			mvprintw(Map::DISPLAY+2,0,"Money: $%i\n",money);
+			mvprintw(Map::DISPLAY+3,0,"q - quit, s - save, r - load, u - upgrade, t - party info", ' ');
 			refresh();
 			map.set(Map::SIZE/2,Map::SIZE/2,'.');
 		}
 		old_x = x;
 		old_y = y;
 		usleep(1'000'000/MAX_FPS);
-		if(300 <= money) break;			// Check whatever the win condition is
+		winCondition(win, map);
+		if(win) break;			// Check whatever the win condition is
 	}
 	turn_off_ncurses();
 	gameOver(money);				// Trigger gameOver sequence and takes in the variable that holds the win condition
