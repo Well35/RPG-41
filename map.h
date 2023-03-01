@@ -93,6 +93,7 @@ class Map {
                 draw(newX,newY);
                 mvprintw(DISPLAY+1,0,"X: %i Y: %i\n",newX,newY);
                 mvprintw(DISPLAY+2,0,"Money: $%i\n",money);
+		mvprintw(DISPLAY+3,0,"q - quit, s - save, r - load, u - upgrade, t - party info", ' ');
                 refresh();		
         }
 	
@@ -126,6 +127,7 @@ class Map {
                 draw(oldX,oldY);
                 mvprintw(DISPLAY+1,0,"X: %i Y: %i\n",oldX,oldY);
                 mvprintw(DISPLAY+2,0,"Money: $%i\n",money);
+		mvprintw(DISPLAY+3,0,"q - quit, s - save, r - load, u - upgrade, t - party info", ' ');
                 refresh();
 
         }
