@@ -18,7 +18,7 @@ class Map {
 	vector<int> yCoord;
 	default_random_engine gen;
 	public:
-	/*
+	
     	void turn_on_ncurses() {
         	initscr();//Start curses mode
         	start_color(); //Enable Colors if possible
@@ -40,7 +40,7 @@ class Map {
     	    endwin(); // End curses mode
     	    if (system("clear")) {}
     	}
-*/
+
 	// Map setter function
 	void set(int col, int row, char newChar) {
 		map.at(row).at(col) = newChar;	
