@@ -154,13 +154,10 @@ int main() {
 	srand(time(0)); // Prevent rand from generating the same number
 					// Current Data Veriables
 	vector<Hero> party;
-	vector<Monster> monsters;// Holds all current party members
 	int money = 0;			// Holds current amount of money
 	bool win = false;
 
 	characterCreation(party);
-
-	Combat c;
 
 
 	turn_on_ncurses(); //DON'T DO CIN or COUT WHEN NCURSES MODE IS ON
@@ -214,15 +211,24 @@ int main() {
 			} else if (map.get(x, y) == Map::WATER) {   // Water collision
 				x = old_x;
 				y = old_y;
-			} else if (map.get(x, y) == Map::MONSTER) { // TODO!
-				for (int i = 0; i < 3; i++) {
+			} else if (map.get(x, y) == Map::MONSTER) { // Combat init
+				Combat C;
+				bool won = false;
+				vector<Monster> monsters;
+				int number = (rand()%3)+1;
+				for (int i = 0; i < number; i++) {
 					int x = rand() % 6 + 1;
 					Monster temp(x);
 					monsters.push_back(temp);
 				}
-				c.start(party, monsters);                                       // Intiate combat sequence
-				map.set(x, y, '.');
-			}
+				c.start(party, monsters,won,money);                                       // Intiate combat sequence
+				if(won) map.set(x, y, '.');
+				else {
+					map.set(x,y,'M');
+					x = old_x;
+					y = old_y;
+				}
+			}	
 			map.draw(x, y);
 			mvprintw(Map::DISPLAY + 1, 0, "X: %i Y: %i\n", x, y);
 			mvprintw(Map::DISPLAY + 2, 0, "Money: $%i\n", money);
