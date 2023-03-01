@@ -149,6 +149,7 @@ class Combat {
 					print();
 					move(20, 20);
 					s = "Who should " + list.currTurn->data->get_name() + " attack?";
+					usleep(20'000'000/90);
 					printw(s.c_str());
 					if (x == 'q') break;
 					if (list.currTurn->data->get_hp() <= 0) {
@@ -166,6 +167,7 @@ class Combat {
 					}
 					else {
 						int k = rand() % her.size();
+						
 						her.at(k).set_hp(her.at(k).get_hp() - mon.at(rand() % mon.size()).get_atk());
 						if (her.at(k).get_hp()  <= 0) {
 							her.erase(her.begin()+k);
@@ -176,6 +178,7 @@ class Combat {
 					//printw(to_string(x).c_str());
 					//usleep(1000);
 					if (!mon.size() or !her.size()) break;
+					usleep(50'000'000/90);
 				}
 				turn_off_ncurses();
 				//list.print_list();
