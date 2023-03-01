@@ -215,7 +215,7 @@ int main() {
 				x = old_x;
 				y = old_y;
 			} else if (map.get(x, y) == Map::MONSTER) { // Combat init
-				Combat C;
+				Combat c;
 				bool won = false;
 				vector<Monster> monsters;
 				int number = (rand()%3)+1;
