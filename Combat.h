@@ -195,8 +195,8 @@ class Combat {
 						money -= 1000;
 						cout << "-$1000 lossed" << endl;
 					}
-					usleep(50'000'000/90);
 				}
+				usleep(50'000'000/90);
 			}
 
 		};
